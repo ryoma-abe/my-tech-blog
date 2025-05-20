@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import Link from "next/link";
+import Setting from "./Setting";
 
 export default async function PrivateHeader() {
   const session = await auth();
@@ -18,12 +19,7 @@ export default async function PrivateHeader() {
           >
             管理ページ
           </Link>
-          <Link
-            href="/logout"
-            className="text-gray-600 hover:text-gray-900 transition"
-          >
-            ログアウト
-          </Link>
+          <Setting session={session} />
         </nav>
       </div>
     </header>
