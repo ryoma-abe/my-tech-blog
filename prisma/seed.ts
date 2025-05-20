@@ -1,8 +1,9 @@
 import { PrismaClient, Prisma } from "@/generated/prisma";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const userData: Prisma.UserCreateInput[] = [
+const userData: Omit<Prisma.UserCreateInput, "password">[] = [
   {
     name: "Alice",
     email: "alice@prisma.io",
@@ -37,7 +38,13 @@ const userData: Prisma.UserCreateInput[] = [
 
 export async function main() {
   for (const u of userData) {
-    await prisma.user.create({ data: u });
+    const hashedPassword = await bcrypt.hash("password123", 6); // 任意のパスワード
+    await prisma.user.create({
+      data: {
+        ...u,
+        password: hashedPassword,
+      } as Prisma.UserCreateInput,
+    });
   }
 }
 
