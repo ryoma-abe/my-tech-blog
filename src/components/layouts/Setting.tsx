@@ -7,7 +7,7 @@ export default function Setting({ session }: { session: Session }) {
     await signOut();
   };
   return (
-    <div>
+    <div className="flex">
       <p>こんにちは{session.user?.name}さん</p>
       <button onClick={handleLogout}>ログアウト</button>
     </div>
