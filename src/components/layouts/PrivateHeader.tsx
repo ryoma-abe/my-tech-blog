@@ -1,6 +1,12 @@
+import { auth } from "@/auth";
 import Link from "next/link";
 
-export default function PrivateHeader() {
+export default async function PrivateHeader() {
+  const session = await auth();
+  if (!session?.user?.email) {
+    throw new Error("不正なリクエストです");
+  }
+
   return (
     <header className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
