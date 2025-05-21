@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import prisma from "./lib/prisma";
 import bcryptjs from "bcryptjs";
+import type { User } from "next-auth";
 
 // ユーザー取得関数
 async function getUser(email: string) {
@@ -15,21 +16,34 @@ export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
-      async authorize(credentials) {
-        const parsedCredentials = z
-          .object({ email: z.string().email(), password: z.string().min(6) })
+      credentials: {
+        email: { label: "メール", type: "text" },
+        password: { label: "パスワード", type: "password" },
+      },
+      async authorize(credentials): Promise<User | null> {
+        if (!credentials) return null;
+
+        const parsed = z
+          .object({
+            email: z.string().email(),
+            password: z.string().min(6),
+          })
           .safeParse(credentials);
-        if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data;
-          const user = await getUser(email); // ユーザー取得
-          if (!user) return null;
-          const passwordsMatch = await bcryptjs.compare(
-            password,
-            user.password
-          ); // パスワード比較
-          if (passwordsMatch) return user;
-        }
-        return null;
+        if (!parsed.success) return null;
+
+        const { email, password } = parsed.data;
+        const user = await getUser(email);
+        if (!user || !user.password) return null;
+
+        const ok = await bcryptjs.compare(password, user.password);
+        if (!ok) return null;
+
+        // NextAuth が要求する形で返す（id は文字列に揃える）
+        return {
+          id: String(user.id),
+          name: user.name,
+          email: user.email,
+        };
       },
     }),
   ],
