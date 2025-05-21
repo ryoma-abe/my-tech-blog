@@ -5,5 +5,12 @@ export async function getOwnPosts(userId: string) {
     where: {
       authorId: userId,
     },
+    select: {
+      id: true,
+      title: true,
+      published: true,
+      updatedAt: true,
+    },
+    orderBy: { updatedAt: "desc" },
   });
 }
