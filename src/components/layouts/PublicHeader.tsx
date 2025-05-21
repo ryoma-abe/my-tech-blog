@@ -13,7 +13,7 @@ export default function PublicHeader() {
             ログイン
           </Link>
           <Link
-            href="#"
+            href="/register"
             className="text-gray-600 hover:text-gray-900 transition"
           >
             登録
