@@ -9,7 +9,7 @@ export const registerSchema = z
     password: z
       .string({ required_error: "パスワードは必須です" })
       .min(1, "パスワードは必須です")
-      .min(8, "パスワードは最低6文字必要です")
+      .min(6, "パスワードは最低6文字必要です")
       .max(32, "パスワードは最大32文字以内にしてください"),
     confirmPassword: z
       .string({ required_error: "確認用パスワードは必須です" })
