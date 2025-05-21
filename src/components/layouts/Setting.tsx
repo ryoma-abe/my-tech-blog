@@ -8,7 +8,7 @@ export default function Setting({ session }: { session: Session }) {
       <form
         action={async () => {
           "use server";
-          await signOut();
+          await signOut({ redirectTo: "/login" });
         }}
       >
         <button type="submit" className="p-4 bg-amber-300">
