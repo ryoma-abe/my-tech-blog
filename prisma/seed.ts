@@ -1,51 +1,55 @@
-import { PrismaClient, Prisma } from "@/generated/prisma";
-import bcrypt from "bcryptjs";
+import { PrismaClient } from "@/generated/prisma";
+import * as bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const userData: Omit<Prisma.UserCreateInput, "password">[] = [
-  {
-    name: "Alice",
-    email: "alice@prisma.io",
-    posts: {
-      create: [
-        {
-          title: "Join the Prisma Discord",
-          content: "https://pris.ly/discord",
-          published: true,
-        },
-        {
-          title: "Prisma on YouTube",
-          content: "https://pris.ly/youtube",
-        },
-      ],
-    },
-  },
-  {
-    name: "Bob",
-    email: "bob@prisma.io",
-    posts: {
-      create: [
-        {
-          title: "Follow Prisma on Twitter",
-          content: "https://www.twitter.com/prisma",
-          published: true,
-        },
-      ],
-    },
-  },
-];
+async function main() {
+  // クリーンアップ
+  await prisma.post.deleteMany();
+  await prisma.user.deleteMany();
 
-export async function main() {
-  for (const u of userData) {
-    const hashedPassword = await bcrypt.hash("password123", 6); // 任意のパスワード
-    await prisma.user.create({
-      data: {
-        ...u,
-        password: hashedPassword,
-      } as Prisma.UserCreateInput,
-    });
-  }
+  const hashedPassword = await bcrypt.hash("password123", 12);
+
+  const dummyImages = [
+    "https://picsum.photos/seed/post1/600/400",
+    "https://picsum.photos/seed/post2/600/400",
+  ];
+
+  // ユーザー作成
+  const user = await prisma.user.create({
+    data: {
+      email: "test@example.com",
+      name: "Test User",
+      password: hashedPassword,
+      posts: {
+        create: [
+          {
+            title: "はじめてのブログ投稿",
+            content:
+              "これは最初のブログ投稿です。Next.jsとPrismaでブログを作成しています。",
+            topImage: dummyImages[0],
+            published: true,
+          },
+          {
+            title: "2番目の投稿",
+            content:
+              "ブログの機能を少しずつ追加していきます。認証機能やダッシュボードなども実装予定です。",
+            topImage: dummyImages[1],
+            published: true,
+          },
+        ],
+      },
+    },
+  });
+
+  console.log({ user });
 }
 
-main();
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
