@@ -16,19 +16,30 @@ export default function CreatePage() {
     setContentLength(value.length);
   };
   return (
-    <div>
-      <form action="">
-        <div>
-          <label htmlFor="title">タイトル</label>
+    <div className="max-w-2xl mx-auto p-6 space-y-6 bg-white rounded-lg shadow">
+      <form className="space-y-6" action="">
+        {/* タイトル */}
+        <div className="space-y-2">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            タイトル
+          </label>
           <input
             type="text"
             id="title"
             name="title"
             placeholder="タイトルを入力してください"
+            className="w-full rounded-md border border-gray-300 p-3 focus:border-amber-500 focus:ring-amber-500"
           />
         </div>
-        <div>
-          <label htmlFor="">内容</label>
+
+        {/* 内容 */}
+        <div className="space-y-2">
+          <label htmlFor="" className="block text-sm font-medium text-gray-700">
+            内容
+          </label>
           <TextareaAutosize
             id="content"
             name="content"
@@ -36,27 +47,45 @@ export default function CreatePage() {
             minRows={8}
             value={content}
             onChange={handleOnchange}
-          ></TextareaAutosize>
+            className="w-full rounded-md border border-gray-300 p-3 focus:border-amber-500 focus:ring-amber-500"
+          />
         </div>
-        <div>文字数:{contentLength}</div>
+
+        {/* 文字数 */}
+        <div className="text-right text-sm text-gray-500">
+          文字数:{contentLength}
+        </div>
+
+        {/* プレビューボタン */}
         <div>
-          <button type="button" onClick={() => setPreview(!preview)}>
+          <button
+            type="button"
+            onClick={() => setPreview(!preview)}
+            className="rounded-md bg-amber-500 px-4 py-2 text-white hover:bg-amber-600 transition"
+          >
             {preview ? "プレビューを閉じる" : "プレビュー"}
           </button>
         </div>
+
+        {/* プレビュー表示 */}
         {preview && (
-          <div className="border p-4 bg-gray-50 prose max-w-none">
+          <div className="prose max-w-none rounded-md border p-6 bg-gray-50">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
-              skipHtml={false} // HTMLスキップを無効化
-              unwrapDisallowed={true} // Markdownの改行を解釈
+              skipHtml={false}
+              unwrapDisallowed={true}
             >
               {content}
             </ReactMarkdown>
           </div>
         )}
-        <button type="submit" className="p-4 bg-amber-200">
+
+        {/* 送信ボタン */}
+        <button
+          type="submit"
+          className="w-full rounded-md bg-amber-400 px-6 py-3 font-semibold text-gray-800 hover:bg-amber-500 transition"
+        >
           送信
         </button>
       </form>
