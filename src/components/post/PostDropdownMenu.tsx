@@ -36,7 +36,7 @@ export default function PostDropdownMenu({ postId }: { postId: string }) {
         <ul className="absolute right-0 z-10 mt-1 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 text-sm">
           <li>
             <Link
-              href={`/posts/${postId}`}
+              href={`/manage/posts/${postId}`}
               className="block px-4 py-2 hover:bg-gray-100"
               onClick={() => setOpen(false)}
             >
