@@ -1,15 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import TextareaAutosize from "react-textarea-autosize";
 import "highlight.js/styles/github.css"; // コードハイライト用のスタイル
+import { createPost } from "@/lib/actions/createPost";
 export default function CreatePage() {
   const [content, setContent] = useState("");
   const [contentLength, setContentLength] = useState(0);
   const [preview, setPreview] = useState(false);
-
+  const [state, formAction] = useActionState(createPost, {
+    success: false,
+    errors: {},
+  });
   const handleOnchange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setContent(value);
@@ -17,7 +21,7 @@ export default function CreatePage() {
   };
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6 bg-white rounded-lg shadow">
-      <form className="space-y-6" action="">
+      <form className="space-y-6" action={formAction}>
         {/* タイトル */}
         <div className="space-y-2">
           <label
@@ -33,6 +37,11 @@ export default function CreatePage() {
             placeholder="タイトルを入力してください"
             className="w-full rounded-md border border-gray-300 p-3 focus:border-amber-500 focus:ring-amber-500"
           />
+          {state.errors.title && (
+            <p className="text-sm text-red-500">
+              {state.errors.title.join(",")}
+            </p>
+          )}
         </div>
         {/* 画像保存 */}
         <div className="space-y-2">
@@ -49,11 +58,19 @@ export default function CreatePage() {
             name="topImage"
             className="w-full rounded-md border border-gray-300 p-3 focus:border-amber-500 focus:ring-amber-500"
           />
+          {state.errors.topImage && (
+            <p className="text-sm text-red-500">
+              {state.errors.topImage.join(",")}
+            </p>
+          )}
         </div>
 
         {/* 内容 */}
         <div className="space-y-2">
-          <label htmlFor="" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-gray-700"
+          >
             内容
           </label>
           <TextareaAutosize
@@ -65,6 +82,11 @@ export default function CreatePage() {
             onChange={handleOnchange}
             className="w-full rounded-md border border-gray-300 p-3 focus:border-amber-500 focus:ring-amber-500"
           />
+          {state.errors.content && (
+            <p className="text-sm text-red-500">
+              {state.errors.content.join(",")}
+            </p>
+          )}
         </div>
 
         {/* 文字数 */}
