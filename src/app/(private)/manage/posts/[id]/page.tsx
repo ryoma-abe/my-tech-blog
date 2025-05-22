@@ -1,13 +1,19 @@
-import { getPost } from "@/lib/post";
+import { auth } from "@/auth";
+import { getOwnPost } from "@/lib/ownPost";
 import { notFound } from "next/navigation";
 
-export default async function Post({
-  params,
-}: {
+type Params = {
   params: Promise<{ id: string }>;
-}) {
+};
+
+export default async function ShowPage({ params }: Params) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!session?.user?.email || !userId) {
+    throw new Error("不正なリクエストです");
+  }
   const { id } = await params;
-  const post = await getPost(id);
+  const post = await getOwnPost(userId, id);
 
   if (!post) {
     notFound();
@@ -17,7 +23,6 @@ export default async function Post({
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center -mt-16">
       <article className="max-w-2xl space-y-4 font-[family-name:var(--font-geist-sans)]">
         <h1 className="text-4xl font-bold mb-8 text-[#333333]">{post.title}</h1>
-        <p className="text-gray-600 text-center">by {post.author.name}</p>
         <div className="prose prose-gray mt-8">
           {post.content || "No content available."}
         </div>
