@@ -34,6 +34,22 @@ export default function CreatePage() {
             className="w-full rounded-md border border-gray-300 p-3 focus:border-amber-500 focus:ring-amber-500"
           />
         </div>
+        {/* 画像保存 */}
+        <div className="space-y-2">
+          <label
+            htmlFor="topImage"
+            className="block text-sm font-medium text-gray-700"
+          >
+            トップ画像
+          </label>
+          <input
+            type="file"
+            id="topImage"
+            accept="image/*"
+            name="topImage"
+            className="w-full rounded-md border border-gray-300 p-3 focus:border-amber-500 focus:ring-amber-500"
+          />
+        </div>
 
         {/* 内容 */}
         <div className="space-y-2">
