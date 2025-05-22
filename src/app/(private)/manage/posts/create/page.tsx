@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
-// import ReactMarkdown from "react-markdown";
-// import remarkGfm from "remark-gfm";
-// import rehypeHighlight from "rehype-highlight";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import TextareaAutosize from "react-textarea-autosize";
 import "highlight.js/styles/github.css"; // コードハイライト用のスタイル
 export default function CreatePage() {
   const [content, setContent] = useState("");
   const [contentLength, setContentLength] = useState(0);
+  const [preview, setPreview] = useState(false);
 
   const handleOnchange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -38,6 +39,26 @@ export default function CreatePage() {
           ></TextareaAutosize>
         </div>
         <div>文字数:{contentLength}</div>
+        <div>
+          <button type="button" onClick={() => setPreview(!preview)}>
+            {preview ? "プレビューを閉じる" : "プレビュー"}
+          </button>
+        </div>
+        {preview && (
+          <div className="border p-4 bg-gray-50 prose max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+              skipHtml={false} // HTMLスキップを無効化
+              unwrapDisallowed={true} // Markdownの改行を解釈
+            >
+              {content}
+            </ReactMarkdown>
+          </div>
+        )}
+        <button type="submit" className="p-4 bg-amber-200">
+          送信
+        </button>
       </form>
     </div>
   );
