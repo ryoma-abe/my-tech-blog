@@ -23,7 +23,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
   const [contentLength, setContentLength] = useState(0);
   const [preview, setPreview] = useState(false);
   const [title, setTitle] = useState(post.title);
-  // const [published, setPublished] = useState(post.published);
+  const [published, setPublished] = useState(post.published);
   const [imagePreview, setImagePreview] = useState(post.topImage);
   const [state, formAction] = useActionState(createPost, {
     success: false,
@@ -167,6 +167,36 @@ export default function EditPostForm({ post }: EditPostFormProps) {
             </ReactMarkdown>
           </div>
         )}
+        {/* 表示・非表示の選択 */}
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            公開状態
+          </label>
+          <div className="flex items-center space-x-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="published"
+                value="true"
+                checked={published === true}
+                onChange={() => setPublished(true)}
+                className="accent-blue-600"
+              />
+              <span>表示</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="published"
+                value="false"
+                checked={published === false}
+                onChange={() => setPublished(false)}
+                className="accent-blue-600"
+              />
+              <span>非表示</span>
+            </label>
+          </div>
+        </div>
 
         {/* 送信ボタン */}
         <button
@@ -177,6 +207,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         </button>
         <input type="hidden" name="postId" value={post.id} />
         <input type="hidden" name="oldImageUrl" value={post.topImage || ""} />
+        <input type="hidden" name="published" value={published.toString()} />
       </form>
     </div>
   );
