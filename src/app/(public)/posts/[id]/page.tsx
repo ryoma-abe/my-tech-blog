@@ -45,7 +45,6 @@ export default async function Post({
           </div>
         </div>
       </article>
-      );
     </div>
   );
 }
