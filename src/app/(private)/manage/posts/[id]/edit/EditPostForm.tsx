@@ -4,9 +4,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import TextareaAutosize from "react-textarea-autosize";
-import "highlight.js/styles/github.css"; // コードハイライト用のスタイル
-import { createPost } from "@/lib/actions/createPost";
+import "highlight.js/styles/github.css";
+
 import Image from "next/image";
+import { updatePost } from "@/lib/actions/updatePost";
 
 type EditPostFormProps = {
   post: {
@@ -25,7 +26,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
   const [title, setTitle] = useState(post.title);
   const [published, setPublished] = useState(post.published);
   const [imagePreview, setImagePreview] = useState(post.topImage);
-  const [state, formAction] = useActionState(createPost, {
+  const [state, formAction] = useActionState(updatePost, {
     success: false,
     errors: {},
   });
