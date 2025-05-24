@@ -24,9 +24,11 @@ export default async function ShowPage({ params }: Params) {
   }
 
   return (
-    <article className="max-w-3xl mx-auto">
-      <h2 className="text-4xl font-bold mb-8 text-[#333333]">{post.title}</h2>
-      <div className="relative w-full h-64">
+    <article className="max-w-3xl mx-auto px-4 py-8">
+      <h2 className="text-4xl font-bold mb-8 text-white tracking-tight">
+        {post.title}
+      </h2>
+      <div className="relative w-full h-64 rounded-xl overflow-hidden border border-zinc-700 shadow">
         {post.topImage && (
           <Image
             src={post.topImage}
@@ -37,17 +39,15 @@ export default async function ShowPage({ params }: Params) {
           />
         )}
       </div>
-      <div className="prose prose-gray mt-8">
-        <div className="prose max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight]}
-            skipHtml={false}
-            unwrapDisallowed={true}
-          >
-            {post.content}
-          </ReactMarkdown>
-        </div>
+      <div className="prose prose-invert prose-zinc mt-10 max-w-none text-zinc-200">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlight]}
+          skipHtml={false}
+          unwrapDisallowed={true}
+        >
+          {post.content}
+        </ReactMarkdown>
       </div>
     </article>
   );

@@ -158,7 +158,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
 
         {/* プレビュー表示 */}
         {preview && (
-          <div className="prose max-w-none rounded-md border border-zinc-700 p-6 bg-zinc-800 text-white">
+          <div className="prose prose-invert prose-zinc max-w-none prose-h2:text-4xl prose-h2:mb-8 prose-h2:tracking-tight">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
