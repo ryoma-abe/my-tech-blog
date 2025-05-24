@@ -18,31 +18,7 @@ export default async function PrivateHeader() {
             My Blog
           </h1>
         </Link>
-
-        {/* ナビゲーション */}
-        <nav className="flex items-center space-x-6">
-          <Link
-            href="/dashboard"
-            className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition"
-          >
-            ダッシュボード
-          </Link>
-          <Link
-            href="/settings"
-            className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition"
-          >
-            設定
-          </Link>
-          <Link
-            href="/logout"
-            className="text-zinc-600 hover:text-red-500 dark:text-zinc-300 dark:hover:text-red-400 transition"
-          >
-            ログアウト
-          </Link>
-
-          {/* ユーザー設定（たとえばプロフィール画像や名前） */}
-          <Setting session={session} />
-        </nav>
+        <Setting session={session} />
       </div>
     </header>
   );
