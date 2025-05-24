@@ -18,35 +18,33 @@ export default async function Post({
   }
 
   return (
-    <div className="min-h-screen pt-20 px-4">
-      <article className="max-w-3xl mx-auto">
-        <h2 className="text-2xl text-center font-bold tracking-tight mb-6">
-          {post.title}
-        </h2>
+    <article className="max-w-3xl mx-auto px-4 py-8">
+      <h2 className="text-4xl font-bold mb-8 text-white tracking-tight">
+        {post.title}
+      </h2>
 
-        {post.topImage && (
-          <div className="relative aspect-video mb-8 rounded-md overflow-hidden shadow-sm">
-            <Image
-              src={post.topImage}
-              alt={post.title}
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-        )}
-
-        <div className="prose prose-zinc dark:prose-invert max-w-none prose-img:rounded-md prose-img:shadow-md prose-code:bg-zinc-100 dark:prose-code:bg-zinc-800">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight]}
-            skipHtml={false}
-            unwrapDisallowed={true}
-          >
-            {post.content}
-          </ReactMarkdown>
+      {post.topImage && (
+        <div className="relative aspect-video mb-10 rounded-xl overflow-hidden border border-zinc-700 shadow-lg">
+          <Image
+            src={post.topImage}
+            alt={post.title}
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
-      </article>
-    </div>
+      )}
+
+      <div className="prose prose-invert prose-zinc max-w-none prose-img:rounded-lg prose-img:shadow-md prose-code:bg-zinc-800">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlight]}
+          skipHtml={false}
+          unwrapDisallowed={true}
+        >
+          {post.content}
+        </ReactMarkdown>
+      </div>
+    </article>
   );
 }
