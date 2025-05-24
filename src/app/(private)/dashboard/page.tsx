@@ -21,36 +21,28 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      <div className="rounded-md shadow border border-zinc-700 overflow-x-auto">
-        <table className="min-w-full text-sm text-left bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100">
-          <thead className="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 text-xs uppercase tracking-wide">
-            <tr>
-              <th className="px-4 py-3 whitespace-nowrap">タイトル</th>
-              <th className="px-4 py-3 whitespace-nowrap">表示/非表示</th>
-              <th className="px-4 py-3 whitespace-nowrap">更新日時</th>
-              <th className="px-4 py-3 whitespace-nowrap">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {posts.map((post) => (
-              <tr
-                key={post.id}
-                className="hover:bg-zinc-50 dark:hover:bg-zinc-800 transition"
-              >
-                <td className="px-4 py-3 whitespace-nowrap">{post.title}</td>
-                <td className="px-4 py-3">
-                  {post.published ? "表示" : "非表示"}
-                </td>
-                <td className="px-4 py-3">
+      <div className="space-y-4">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="rounded-lg border border-zinc-700 bg-white dark:bg-zinc-900 p-4 shadow-sm"
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">
+                  {post.title}
+                </h3>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  {post.published ? "表示" : "非表示"}・
                   {new Date(post.updatedAt).toLocaleString()}
-                </td>
-                <td className="px-4 py-3 relative">
-                  <PostDropdownMenu postId={post.id} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </p>
+              </div>
+              <div className="relative shrink-0">
+                <PostDropdownMenu postId={post.id} />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
