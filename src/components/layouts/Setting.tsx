@@ -3,8 +3,8 @@ import { Session } from "next-auth";
 // session という名前の Session 型オブジェクトをpropsとして受け取る
 export default function Setting({ session }: { session: Session }) {
   return (
-    <div className="flex items-center gap-4">
-      <p className="text-sm text-zinc-700 dark:text-zinc-200">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-4">
+      <p className="text-sm text-zinc-700 dark:text-zinc-200 text-center sm:text-left">
         こんにちは {session.user?.name} さん
       </p>
       <form
