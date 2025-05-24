@@ -20,7 +20,7 @@ export default function CreatePage() {
     setContentLength(value.length);
   };
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800">
+    <div className="max-w-3xl mx-auto p-6 space-y-6 bg-zinc-900 rounded-xl shadow-lg border border-zinc-800 mt-10">
       <form className="space-y-6" action={formAction}>
         {/* タイトル */}
         <div className="space-y-2">
