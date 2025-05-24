@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import Link from "next/link";
-import Setting from "./Setting";
 
 export default async function PrivateHeader() {
   const session = await auth();
@@ -9,17 +8,32 @@ export default async function PrivateHeader() {
   }
 
   return (
-    <header className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Logo</h1>
-        <nav className="space-x-6">
+    <header className="shadow-xl">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <Link href="/">
+          <h1 className="text-2xl font-semibold text-zinc-800 dark:text-white tracking-tight">
+            My Blog
+          </h1>
+        </Link>
+        <nav className="flex space-x-6">
           <Link
             href="/dashboard"
-            className="text-gray-600 hover:text-gray-900 transition"
+            className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition"
           >
-            管理ページ
+            ダッシュボード
           </Link>
-          <Setting session={session} />
+          <Link
+            href="/settings"
+            className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition"
+          >
+            設定
+          </Link>
+          <Link
+            href="/logout"
+            className="text-zinc-600 hover:text-red-500 dark:text-zinc-300 dark:hover:text-red-400 transition"
+          >
+            ログアウト
+          </Link>
         </nav>
       </div>
     </header>
