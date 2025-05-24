@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-    <PublicHeader/>
+      <PublicHeader />
       <main>{children}</main>
     </>
   );

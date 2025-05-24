@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+body {
+  @apply text-white  bg-gray-800;
+}
