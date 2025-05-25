@@ -7,11 +7,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: "https",
+        hostname: "nddoozqljpwizemfnrjm.supabase.co",
+      },
     ],
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: "5mb", // 必要に応じて値を変更
+      bodySizeLimit: "100mb", // 必要に応じて値を変更
     },
   },
 };
