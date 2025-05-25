@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import { saveImage } from "@/generated/utils/image";
+import { saveImage } from "@/utils/image";
 import { postSchema } from "@/validations/post";
 import prisma from "../prisma";
 import { redirect } from "next/navigation";
