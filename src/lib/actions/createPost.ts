@@ -10,16 +10,16 @@ type ActionState = {
   success: boolean;
   errors: Record<string, string[]>;
 };
+
 export async function createPost(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  // フォームの情報を取得
-  const title = formData.get("title") as string;
-  const content = formData.get("content") as string;
+  const title = formData.get("title")?.toString() ?? "";
+  const content = formData.get("content")?.toString() ?? "";
   const topImageInput = formData.get("topImage");
   const topImage = topImageInput instanceof File ? topImageInput : null;
-  // バリデーション
+
   const validationResult = postSchema.safeParse({ title, content, topImage });
   if (!validationResult.success) {
     return {
@@ -27,26 +27,40 @@ export async function createPost(
       errors: validationResult.error.flatten().fieldErrors,
     };
   }
-  // 画像保存
-  const imageUrl = topImage ? await saveImage(topImage) : null;
-  if (topImage && !imageUrl) {
+
+  let imageUrl: string | null = null;
+  try {
+    imageUrl = topImage ? await saveImage(topImage) : null;
+  } catch {
     return { success: false, errors: { image: ["画像の保存に失敗しました"] } };
   }
-  // DB保存
+
   const session = await auth();
   const userId = session?.user?.id;
+
   if (!session?.user?.email || !userId) {
-    throw new Error("不正なリクエストです");
+    return {
+      success: false,
+      errors: { auth: ["ログイン情報が確認できません"] },
+    };
   }
 
-  await prisma.post.create({
-    data: {
-      title,
-      content,
-      topImage: imageUrl,
-      published: true,
-      authorId: userId,
-    },
-  });
+  try {
+    await prisma.post.create({
+      data: {
+        title,
+        content,
+        topImage: imageUrl,
+        published: true,
+        authorId: userId,
+      },
+    });
+  } catch {
+    return {
+      success: false,
+      errors: { db: ["記事の保存に失敗しました"] },
+    };
+  }
+
   redirect("/dashboard");
 }
