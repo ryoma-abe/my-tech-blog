@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",
+    "@supabase/supabase-js": "^2.49.8",
     "@tailwindcss/typography": "github:tailwindcss/typography",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
